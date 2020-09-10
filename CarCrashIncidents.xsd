@@ -1,0 +1,188 @@
+<!-- 
+MODULE : B9DA102 Data Storage Solutions for Data Analytics
+GROUP B (Slot 4)
+
+Subramaniam Kazhuparambil (10524303)
+Rahul Ramchandra Uppari (10523807)
+Deeksha Sharma (10522688) 
+Mohit Singh (10525046)
+
+SCHEMA
+-->
+
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:element name="CarCrashIncidents">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="Driver_Dim" minOccurs="1" maxOccurs="unbounded"/>
+<xsd:element ref="Vehicle_Dim" minOccurs="1" maxOccurs="unbounded"/>
+<xsd:element ref="CaseDetail_Dim" minOccurs="1" maxOccurs="unbounded"/>
+<xsd:element ref="CarCrashDate_Dim" minOccurs="1" maxOccurs="unbounded"/>
+<xsd:element ref="CarCrashConditions_Dim" minOccurs="1" maxOccurs="unbounded"/>
+<xsd:element ref="CrashIncident_Fact" minOccurs="1" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:key name="Person_PK">
+<xsd:selector xpath="Driver_Dim/PersonKey"/>
+<xsd:field xpath="."/>
+</xsd:key>
+<xsd:keyref name="Person_ref_Key" refer="Person_PK">
+<xsd:selector xpath="CrashIncident_Fact/PersonKey"/>
+<xsd:field xpath="."/>
+</xsd:keyref>
+<xsd:key name="Vehicle_PK">
+<xsd:selector xpath="Vehicle_Dim/VehicleKey"/>
+<xsd:field xpath="."/>
+</xsd:key>
+<xsd:keyref name="Vehicle_ref_Key" refer="Vehicle_PK">
+<xsd:selector xpath="CrashIncident_Fact/VehicleKey"/>
+<xsd:field xpath="."/>
+</xsd:keyref>
+<xsd:key name="Case_PK">
+<xsd:selector xpath="CaseDetail_Dim/CaseKey"/>
+<xsd:field xpath="."/>
+</xsd:key>
+<xsd:keyref name="Case_ref_Key" refer="Case_PK">
+<xsd:selector xpath="CrashIncident_Fact/CaseKey"/>
+<xsd:field xpath="."/>
+</xsd:keyref>
+<xsd:key name="Date_PK">
+<xsd:selector xpath="CarCrashDate_Dim/CarCrashDateKey"/>
+<xsd:field xpath="."/>
+</xsd:key>
+<xsd:keyref name="Date_ref_Key" refer="Date_PK">
+<xsd:selector xpath="CrashIncident_Fact/CarCrashDateKey"/>
+<xsd:field xpath="."/>
+</xsd:keyref>
+<xsd:key name="CrashConditions_PK">
+<xsd:selector xpath="CarCrashConditions_Dim/CrashConditionsKey"/>
+<xsd:field xpath="."/>
+</xsd:key>
+<xsd:keyref name="CrashCondition_ref_Key" refer="CrashConditions_PK">
+<xsd:selector xpath="CrashIncident_Fact/CrashConditionsKey"/>
+<xsd:field xpath="."/>
+</xsd:keyref>
+</xsd:element>
+<xsd:element name="Driver_Dim">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="PersonKey" />
+<xsd:element ref="PersonId" />
+<xsd:element ref="InjurySeverity" />
+<xsd:element ref="DriverDistractedBy" />
+<xsd:element ref="NonMotoristSubstanceAbuse" />
+<xsd:element ref="DriverLicenseState" />
+<xsd:element ref="DriverSubstanceAbuse" />
+<xsd:element ref="DriverAtFault" />
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="Vehicle_Dim">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="VehicleKey" />
+<xsd:element ref="VehicleId" />
+<xsd:element ref="VehicleBodyType" />
+<xsd:element ref="VehicleDamageExtent" />
+<xsd:element ref="VehicleMovement" />
+<xsd:element ref="SpeedLimit" />
+<xsd:element ref="DriverLessVehicle" />
+<xsd:element ref="ParkedVehicle" />
+<xsd:element ref="VehicleYear" />
+<xsd:element ref="EquipmentProblems" />
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CaseDetail_Dim">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="CaseKey" />
+<xsd:element ref="ReportNumber" />
+<xsd:element ref="AgencyName" />
+<xsd:element ref="ACRSReportType" />
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CarCrashDate_Dim">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="CarCrashDateKey" />
+<xsd:element ref="FullDate" />
+<xsd:element ref="DayOfWeek" />
+<xsd:element ref="TypeOfDay" />
+<xsd:element ref="DayOfMonth" />
+<xsd:element ref="Month" />
+<xsd:element ref="Quarter" />
+<xsd:element ref="Year" />
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CarCrashConditions_Dim">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="CrashConditionsKey" />
+<xsd:element ref="LocalCaseNumber" />
+<xsd:element ref="Weather" />
+<xsd:element ref="SurfaceCondition" />
+<xsd:element ref="Light" />
+<xsd:element ref="TrafficControl" />
+<xsd:element ref="CollisionType" />
+<xsd:element ref="CollisionStreetName" />
+<xsd:element ref="CollisionStreetType"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CrashIncident_Fact">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="PersonKey"/>
+<xsd:element ref="VehicleKey"/>
+<xsd:element ref="CaseKey"/>
+<xsd:element ref="CarCrashDateKey"/>
+<xsd:element ref="CrashConditionsKey"/>
+<xsd:element ref="CrashTime"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="PersonKey" type="xsd:int" />
+<xsd:element name="PersonId" type="xsd:string" />
+<xsd:element name="InjurySeverity" type="xsd:string"/>
+<xsd:element name="DriverDistractedBy" type="xsd:string"/>
+<xsd:element name="NonMotoristSubstanceAbuse" type="xsd:string"/>
+<xsd:element name="DriverLicenseState" type="xsd:string"/>
+<xsd:element name="DriverSubstanceAbuse" type="xsd:string"/>
+<xsd:element name="DriverAtFault" type="xsd:string"/>
+<xsd:element name="VehicleKey" type="xsd:int"/>
+<xsd:element name="VehicleId" type="xsd:string"/>
+<xsd:element name="VehicleBodyType" type="xsd:string"/>
+<xsd:element name="VehicleDamageExtent" type="xsd:string"/>
+<xsd:element name="VehicleMovement" type="xsd:string"/>
+<xsd:element name="SpeedLimit" type="xsd:int"/>
+<xsd:element name="DriverLessVehicle" type="xsd:string"/>
+<xsd:element name="ParkedVehicle" type="xsd:string"/>
+<xsd:element name="VehicleYear" type="xsd:int"/>
+<xsd:element name="EquipmentProblems" type="xsd:string"/>
+<xsd:element name="CaseKey" type="xsd:int"/>
+<xsd:element name="ReportNumber" type="xsd:string"/>
+<xsd:element name="AgencyName" type="xsd:string"/>
+<xsd:element name="ACRSReportType" type="xsd:string"/>
+<xsd:element name="CarCrashDateKey" type="xsd:string"/>
+<xsd:element name="FullDate" type="xsd:date"/>
+<xsd:element name="DayOfWeek" type="xsd:string"/>
+<xsd:element name="TypeOfDay" type="xsd:string"/>
+<xsd:element name="DayOfMonth" type="xsd:int"/>
+<xsd:element name="Month" type="xsd:int"/>
+<xsd:element name="Quarter" type="xsd:string"/>
+<xsd:element name="Year" type="xsd:int"/>
+<xsd:element name="CrashConditionsKey" type="xsd:int"/>
+<xsd:element name="LocalCaseNumber" type="xsd:int"/>
+<xsd:element name="Weather" type="xsd:string"/>
+<xsd:element name="SurfaceCondition" type="xsd:string"/>
+<xsd:element name="Light" type="xsd:string"/>
+<xsd:element name="TrafficControl" type="xsd:string"/>
+<xsd:element name="CollisionType" type="xsd:string"/>
+<xsd:element name="CollisionStreetName" type="xsd:string"/>
+<xsd:element name="CollisionStreetType" type="xsd:string"/>
+<xsd:element name="CrashTime" type="xsd:time"/>
+</xsd:schema>
